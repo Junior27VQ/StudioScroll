@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import {API_BASE_URL} from "../config/apiConfig"
 
-function ListaItems({animes}){
+function ListaItems({animes, onEliminar}){
     const [fotosUrl, setFotosUrl] = useState({});
     const {token} = useAuth();
 
@@ -36,7 +36,31 @@ function ListaItems({animes}){
                 URL.revokeObjectURL(url);
             }
         }
-    }, [animes, token])
+    }, [animes, token]);
+
+    const manejarEliminar = async (id) => {
+        const confirmacion = window.confirm("¿Estás seguro de eliminar este anime?");
+        
+        if (confirmacion) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/blob/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    alert("Anime eliminado con éxito");
+                    onEliminar();
+                } else {
+                    alert("Error al intentar eliminar");
+                }
+            } catch (error) {
+                console.error("Error de red:", error);
+            }
+        }
+    };
     
     return(
         <div className="grid-container"> 
@@ -50,9 +74,12 @@ function ListaItems({animes}){
                     style={{width: '100px'}}
                 />
                 <h3>{a.titulo}</h3>
-                <p>{a.genero}</p>
+                <p><strong>Género:</strong> {a.genero}</p>
+                <p><strong>Calificación:</strong> {a.calificacion}/10</p>
+                <p><strong>Formato:</strong> {a.formato}</p>
+                {/*Botones*/}
                 <button>Editar</button>
-                <button>Eliminar</button>
+                <button onClick={() => manejarEliminar(a.id)}>Eliminar</button>
                 </div>
             ))}
         
