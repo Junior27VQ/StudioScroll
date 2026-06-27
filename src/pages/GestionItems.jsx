@@ -34,12 +34,19 @@ function GestionItems(){
     useEffect(()=> { cargarAnimes(); },[cargarAnimes]);
 
     return(
-        <div>
-            <div>
-                <h1>Gestionar Animes</h1>
-                <button onClick={() => setEditarAnime({})}>Registrar Nuevo</button>
-            </div>
-            {editarAnime &&(
+        <div className="auth-container" style={{ padding: '20px', minHeight: 'auto', display: 'block' }}>
+            <header className="profile-header" style={{ marginBottom: '30px' }}>
+                <h1>Gestión de Animes</h1>
+                <button 
+                    className="btn-primary" 
+                    onClick={() => setEditarAnime({})}
+                    style={{ width: 'auto', padding: '10px 20px' }}
+                >
+                    + Registrar Nuevo
+                </button>
+            </header>
+
+            {editarAnime && (
                 <ModalFormulario
                     anime={editarAnime.id ? editarAnime : null}
                     onClose={() => setEditarAnime(null)}
@@ -47,12 +54,14 @@ function GestionItems(){
                     token={token}
                 />
             )}
+
             <ListaItems 
                 animes={listaAnimes}
-                onEditar={manejarEditar}
+                onEditar={setEditarAnime} // Simplificado para que sea directo
                 onEliminar={cargarAnimes}
             />
-            {errorMsg && <p style={{color: 'red'}}>{errorMsg}</p>}
+
+            {errorMsg && <p className="error-msg" style={{ textAlign: 'center' }}>{errorMsg}</p>}
         </div>
     )
 }

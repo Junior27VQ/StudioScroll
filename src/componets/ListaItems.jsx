@@ -63,26 +63,35 @@ function ListaItems({animes, onEliminar, onEditar}){
     };
     
     return(
-        <div className="grid-container"> 
-        <h1>Listado de Animes</h1>
-
+        <div className="lista-animes-grid">
             {animes.map(a => (
                 <div className="card" key={a.id}>
-                <img 
-                    src={fotosUrl[a.id] || 'placeholder.png'} 
-                    alt={a.titulo} 
-                    style={{width: '100px'}}
-                />
-                <h3>{a.titulo}</h3>
-                <p><strong>Género:</strong> {a.genero}</p>
-                <p><strong>Calificación:</strong> {a.calificacion}/10</p>
-                <p><strong>Formato:</strong> {a.formato}</p>
-                {/*Botones*/}
-                <button onClick={()=> onEditar(a)}>Editar</button>
-                <button onClick={() => manejarEliminar(a.id)}>Eliminar</button>
+                    {/* La imagen ahora se ajusta al contenedor */}
+                    <div className="card-image-container">
+                        <img 
+                            src={fotosUrl[a.id] || 'placeholder.png'} 
+                            alt={a.titulo} 
+                        />
+                    </div>
+                    
+                    <div className="card-body">
+                        <h3>{a.titulo}</h3>
+                        <div className="card-info">
+                            <p><span>Género:</span> {a.genero}</p>
+                            <p><span>Calificación:</span> {a.calificacion}/10</p>
+                            <p><span>Formato:</span> {a.formato}</p>
+                            <p><span>Estado:</span> {a.estado ? "Finalizado" : "En Emisión"}</p>
+                        </div>
+                        
+                        <div className="card-actions">
+                            <button className="btn-accion btn-editar" onClick={() => onEditar(a)}>Editar</button>
+                            <button className="btn-accion btn-eliminar" onClick={() => manejarEliminar(a.id)}>Eliminar</button>
+                            {/* Botón para tu función futura de "Más Info" */}
+                            <button className="btn-accion btn-info">Info</button>
+                        </div>
+                    </div>
                 </div>
             ))}
-        
         </div>
     )
 }

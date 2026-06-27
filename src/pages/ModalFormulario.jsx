@@ -73,28 +73,29 @@ function ModalFormulario({ anime, onClose, onActualizar, token }) {
             <div className="modal-content">
                 <h2>{anime ? "Editar" : "Registrar"} Anime</h2>
                 <form onSubmit={manejarSubmit}>
-                    <input 
-                        name="titulo"
-                        value={formData.titulo} 
-                        onChange={manejarCambio} 
-                        required 
-                    />
-                    
+                    <div className="form-group">
+                        <label>Título:</label>
+                        <input name="titulo" value={formData.titulo} onChange={manejarCambio} required />
+                    </div>
+
                     <div>
                         <p>Géneros:</p>
-                        {opcionesGenero.map(g => (
-                            <label key={g}>
-                                <input 
-                                    type="checkbox" 
-                                    value={g} 
-                                    checked={generosSeleccionados.includes(g)} 
-                                    onChange={manejarGenero} 
-                                />
-                                {g}
-                            </label>
-                        ))}
+                        <div className="checkbox-group">
+                            {opcionesGenero.map(g => (
+                                <label key={g}>
+                                    <input 
+                                        type="checkbox" 
+                                        value={g} 
+                                        checked={generosSeleccionados.includes(g)} 
+                                        onChange={manejarGenero} 
+                                    />
+                                    {g}
+                                </label>
+                            ))}
+                        </div>
                     </div>
-                    <div>
+
+                    <div className="form-group">
                         <label>Sinopsis</label>
                         <textarea
                             name="sinopsis"
@@ -107,53 +108,38 @@ function ModalFormulario({ anime, onClose, onActualizar, token }) {
                         />
                     </div>
 
-                    <div>
-                        <label>Foto</label>
-                         <input 
-                            type="file"
-                            onChange={(e) => setArchivo(e.target.files[0])} 
-                        />
+                    <div className="form-group">
+                        <label>Foto:</label>
+                        <input type="file" onChange={(e) => setArchivo(e.target.files[0])} />
                     </div>
 
-                    <div>
+                    <div className="form-group">
                         <label>Episodios:</label>
-                        <input 
-                            type="number" 
-                            name="episodios" 
-                            value={formData.episodios} 
-                            onChange={manejarCambio} />
+                        <input type="number" name="episodios" value={formData.episodios} onChange={manejarCambio} />
                     </div>
-                    <div>
-                        <label>Calificacion</label>
-                        <input 
-                            type="number" 
-                            name="calificacion"
-                            min="1" max="10"
-                            value={formData.calificacion} 
-                            onChange={manejarCambio}  
-                        />
+
+                    <div className="form-group">
+                        <label>Calificación:</label>
+                        <input type="number" name="calificacion" min="1" max="10" value={formData.calificacion} onChange={manejarCambio} />
                     </div>
-                    <div>
+
+                    <div className="form-group">
                         <label>Formato:</label>
-                        <select name="formato" value={formData.formato} onChange={manejarCambio} >
-                            <option value="" >Seleccionar...</option>
-                            <option value="Serie" >Serie</option>
-                            <option value="Pelicula" >Pelicula</option>
-                            <option value="OVA" >OVA</option>
+                        <select name="formato" value={formData.formato} onChange={manejarCambio}>
+                            <option value="">Seleccionar...</option>
+                            <option value="Serie">Serie</option>
+                            <option value="Pelicula">Pelicula</option>
+                            <option value="OVA">OVA</option>
                         </select>
                     </div>
-                    <div>
-                        <label>Estado</label>
-                        <input 
-                            type="checkbox"
-                            name="estado"  
-                            checked={formData.estado} 
-                            onChange={manejarCambio} 
-                        />
+
+                    <div className="form-group">
+                        <label>Estado:</label>
+                        <input type="checkbox" name="estado" checked={formData.estado} onChange={manejarCambio} />
                     </div>
 
-                    {errorMsg && <p style={{color: 'red'}}>{errorMsg}</p>}
-                    {succesMsg && <p style={{color: 'red'}}>{succesMsg}</p>}
+                    {errorMsg && <p className="error-msg">{errorMsg}</p>}
+                    {succesMsg && <p className="success-msg">{succesMsg}</p>}
 
                     <button type="submit">Guardar</button>
                     <button type="button" onClick={onClose}>Cancelar</button>
