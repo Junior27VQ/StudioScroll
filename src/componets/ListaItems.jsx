@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import {API_BASE_URL} from "../config/apiConfig"
 
-function ListaItems({animes, onEliminar}){
+function ListaItems({animes, onEliminar, onEditar}){
     const [fotosUrl, setFotosUrl] = useState({});
     const {token} = useAuth();
 
@@ -78,7 +78,7 @@ function ListaItems({animes, onEliminar}){
                 <p><strong>Calificación:</strong> {a.calificacion}/10</p>
                 <p><strong>Formato:</strong> {a.formato}</p>
                 {/*Botones*/}
-                <button>Editar</button>
+                <button onClick={()=> onEditar(a)}>Editar</button>
                 <button onClick={() => manejarEliminar(a.id)}>Eliminar</button>
                 </div>
             ))}
