@@ -6,10 +6,10 @@ function ModalFormulario({ anime, onClose, onActualizar, token }) {
     const [formData, setFormData] = useState({
         titulo: anime?.titulo || '',
         sinopsis: anime?.sinopsis || '',
-        episodios: anime?.episodios || 0,
+        episodio: anime?.episodio || 0,
         calificacion: anime?.calificacion || 0.0,
         formato: anime?.formato || '',
-        estado: anime?.estado || false
+        estado: anime?.estado || 'En Emision'
     });
     //Estado para errores
     const [errorMsg, setErrorMsg] = useState('');
@@ -20,13 +20,17 @@ function ModalFormulario({ anime, onClose, onActualizar, token }) {
         anime?.genero ? anime.genero.split(',') : []
     );
 
-    const opcionesGenero = ["Romance", "Accion", "Comedia", "Drama", "Terror"];
+    const opcionesGenero = ["Romance", "Accion", "Comedia", "Drama", "Terror", "Fantasia"];
     const manejarCambio = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        if(type === 'checkbox') {
+            setFormData({
+                ...formData,
+            [name]: checked ? "Finalizado" : "En Emision"
+            });
+        } else {
+            setFormData({...formData, [name]: value});
+        }
     };
     const manejarGenero = (e) => {
         const { value, checked } = e.target;
@@ -73,7 +77,7 @@ function ModalFormulario({ anime, onClose, onActualizar, token }) {
             <div className="modal-content">
                 <h2>{anime ? "Editar" : "Registrar"} Anime</h2>
                 <form onSubmit={manejarSubmit}>
-                    <div className="form-group">
+                    <div className="form-title">
                         <label>Título:</label>
                         <input name="titulo" value={formData.titulo} onChange={manejarCambio} required />
                     </div>
@@ -113,36 +117,56 @@ function ModalFormulario({ anime, onClose, onActualizar, token }) {
                         <input type="file" onChange={(e) => setArchivo(e.target.files[0])} />
                     </div>
 
-                    <div className="form-group">
-                        <label>Episodios:</label>
-                        <input type="number" name="episodios" value={formData.episodios} onChange={manejarCambio} />
+                    <div className="row-flex">
+                        <div className="form-group flex-1">
+                            <label>Episodios:</label>
+                            <input 
+                                type="number" 
+                                name="episodio" 
+                                value={formData.episodio} onChange={manejarCambio} 
+                            />
+                        </div>
+
+                        <div className="form-group flex-1">
+                            <label>Calificación:</label>
+                            <input 
+                                type="number" 
+                                name="calificacion" 
+                                min="1" max="10" 
+                                value={formData.calificacion} onChange={manejarCambio} 
+                            />
+                        </div>
                     </div>
 
-                    <div className="form-group">
-                        <label>Calificación:</label>
-                        <input type="number" name="calificacion" min="1" max="10" value={formData.calificacion} onChange={manejarCambio} />
-                    </div>
+                    <div className="row-flex">
+                        <div className="form-group">
+                            <label>Formato:</label>
+                            <select name="formato" value={formData.formato} onChange={manejarCambio}>
+                                <option value="">Seleccionar...</option>
+                                <option value="Serie">Serie</option>
+                                <option value="Pelicula">Pelicula</option>
+                                <option value="OVA">OVA</option>
+                            </select>
+                        </div>
 
-                    <div className="form-group">
-                        <label>Formato:</label>
-                        <select name="formato" value={formData.formato} onChange={manejarCambio}>
-                            <option value="">Seleccionar...</option>
-                            <option value="Serie">Serie</option>
-                            <option value="Pelicula">Pelicula</option>
-                            <option value="OVA">OVA</option>
-                        </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Estado:</label>
-                        <input type="checkbox" name="estado" checked={formData.estado} onChange={manejarCambio} />
+                        <div className="form-group">
+                            <label>Estado:</label>
+                            <input 
+                                type="checkbox" 
+                                name="estado" 
+                                checked={formData.estado === "Finalizado"} 
+                                onChange={manejarCambio} 
+                            />
+                        </div>
                     </div>
 
                     {errorMsg && <p className="error-msg">{errorMsg}</p>}
                     {succesMsg && <p className="success-msg">{succesMsg}</p>}
 
-                    <button type="submit">Guardar</button>
-                    <button type="button" onClick={onClose}>Cancelar</button>
+                    <div className="row-flex">
+                        <button type="submit">Guardar</button>
+                        <button type="button" onClick={onClose}>Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>

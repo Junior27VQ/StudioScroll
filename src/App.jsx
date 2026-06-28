@@ -28,7 +28,7 @@ function App() {
             <Route path='/blob' element={<GestionItems/>} />
           </Route>
 
-          <Route path='*' element={<Navigate to='login' replace/>} />
+          <Route path='*' element={<Navigate to='/login' replace/>} />
 
         </Routes>
       </BrowserRouter>

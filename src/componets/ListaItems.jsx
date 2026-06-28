@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import {API_BASE_URL} from "../config/apiConfig"
 
-function ListaItems({animes, onEliminar, onEditar}){
+function ListaItems({animes, onEliminar, onEditar, inf}){
     const [fotosUrl, setFotosUrl] = useState({});
     const {token} = useAuth();
 
@@ -15,7 +15,7 @@ function ListaItems({animes, onEliminar, onEditar}){
                     const response = await fetch(`${API_BASE_URL}/auth/blob/${anime.id}/foto`, {
                                                 headers: {
                                                     'Authorization': `Bearer ${token}`
-                                                },body: formData 
+                                                } 
                                             });
                     if(response.ok){
                         const blob = await response.blob();
@@ -86,8 +86,8 @@ function ListaItems({animes, onEliminar, onEditar}){
                         <div className="card-actions">
                             <button className="btn-accion btn-editar" onClick={() => onEditar(a)}>Editar</button>
                             <button className="btn-accion btn-eliminar" onClick={() => manejarEliminar(a.id)}>Eliminar</button>
-                            {/* Botón para tu función futura de "Más Info" */}
-                            <button className="btn-accion btn-info">Info</button>
+                            {/* Botón de función "Más Info" */}
+                            <button className="btn-accion btn-info" onClick={() => inf(a)}>Info</button>
                         </div>
                     </div>
                 </div>

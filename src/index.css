@@ -424,3 +424,37 @@ select {
     background: #475569;
     color: white;
 }
+
+/* Para que todas las cajas se vean iguales */
+.input-estilizado {
+    width: 100%;
+    padding: 10px;
+    background-color: #1a2233; /* El color oscuro que usas */
+    border: 1px solid #334155;
+    color: white;
+    border-radius: 5px;
+}
+
+/* Contenedor para poner elementos lado a lado */
+.row-flex {
+    display: flex;
+    gap: 15px; /* Espacio entre las cajas */
+}
+
+/* Para que ocupen el mismo ancho */
+.flex-1 {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-title {
+  width: 100%;
+    padding: 10px;
+    background-color: #1a2233; /* El color oscuro que usas */
+    border: 1px solid #334155;
+    color: white;
+    border-radius: 5px;
+}
